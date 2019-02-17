@@ -1,22 +1,23 @@
+import Link from 'next/link'
 import slug from '../helpers/slug'
 
 export default class extends React.Component {
-    render() {
-        const { podcasts, onClickPodcast } = this.props
+  render() {
+    const { podcasts, onClickPodcast } = this.props
 
-        return <div>
-            {podcasts.map((podcast) => (
-                <a href={`/${slug(podcast.channel.title)}.${podcast.channel.id}/${slug(podcast.title)}.${podcast.id}`}
-                    className='podcast' key={podcast.id}
-                    onClick={(event) => onClickPodcast(event, podcast)}>
-                    <h3>{podcast.title}</h3>
-                    <div className='meta'>
-                        {Math.ceil(podcast.duration / 60)} minutes
+    return <div>
+      { podcasts.map((podcast) => (
+        <a href={`/${slug(podcast.channel.title)}.${podcast.channel.id}/${slug(podcast.title)}.${podcast.id}`}
+          className='podcast' key={podcast.id}
+          onClick={ (event) => onClickPodcast(event, podcast) }>
+          <h3>{ podcast.title }</h3>
+          <div className='meta'>
+            { Math.ceil(podcast.duration / 60) } minutes
           </div>
-                </a>
-            ))}
+        </a>
+      )) }
 
-            <style jsx>{`
+      <style jsx>{`
         .podcast {
           display: block;
           text-decoration: none;
@@ -37,6 +38,6 @@ export default class extends React.Component {
           font-size: 0.8em;
         }
       `}</style>
-        </div>
-    }
+    </div>
+  }
 }
