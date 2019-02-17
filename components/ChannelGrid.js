@@ -1,5 +1,6 @@
-import Link from 'next/link';
+import Link from '../routes';
 import { Component } from 'react';
+import slug from '../helpers/slug'
 
 export default class ChannelGrid extends Component {
     render() {
@@ -9,7 +10,10 @@ export default class ChannelGrid extends Component {
                 channels.map((channel) => (
                     // con prefetch solo caramgos html css y js, no carga el getInitialProps
                     //prefetch solo funciona en produccion
-                    <Link href={`/channel?id=${channel.id}`} prefetch key={channel.id}>
+                    <Link route='channel' params={{
+                        slug: slug(channel.title),
+                        id: channel.id
+                    }} prefetch key={channel.id}>
                         <a className="channel" key={channel.id}>
                             <img src={channel.urls.logo_image.original} alt="" />
                             <h2>{channel.title}</h2>
