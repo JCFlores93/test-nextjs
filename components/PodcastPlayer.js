@@ -2,37 +2,37 @@ import { Link } from '../routes'
 import slug from '../helpers/slug'
 
 export default class PodcastPlayer extends React.Component {
-    render() {
-        const { clip, onClose } = this.props
+  render() {
+    const { clip, onClose } = this.props
 
-        return <div className="modal">
-            <div className='clip'>
-                <nav>
-                    {onClose ?
-                        <a onClick={onClose}>&lt; Volver</a>
-                        :
-                        <Link route='channel'
-                            params={{ slug: slug(clip.channel.title), id: clip.channel.id }}
-                            prefetch>
-                            <a className='close'>&lt; Volver</a>
-                        </Link>
-                    }
-                </nav>
+    return <div className="modal">
+      <div className='clip'>
+        <nav>
+          {onClose ?
+            <a onClick={onClose}>&lt; Volver</a>
+            :
+            <Link route='channel'
+              params={{ slug: slug(clip.channel.title), id: clip.channel.id }}
+              prefetch>
+              <a className='close'>&lt; Volver</a>
+            </Link>
+          }
+        </nav>
 
-                <picture>
-                    <div style={{ backgroundImage: `url(${clip.urls.image || clip.channel.urls.logo_image.original})` }} />
-                </picture>
+        <picture>
+          <div style={{ backgroundImage: `url(${clip.urls.image || clip.channel.urls.logo_image.original})` }} />
+        </picture>
 
-                <div className='player'>
-                    <h3>{clip.title}</h3>
-                    <h6>{clip.channel.title}</h6>
-                    <audio controls autoPlay={true}>
-                        <source src={clip.urls.high_mp3} type='audio/mpeg' />
-                    </audio>
-                </div>
-            </div>
+        <div className='player'>
+          <h3>{clip.title}</h3>
+          <h6>{clip.channel.title}</h6>
+          <audio controls autoPlay={true}>
+            <source src={clip.urls.high_mp3} type='audio/mpeg' />
+          </audio>
+        </div>
+      </div>
 
-            <style jsx>{`
+      <style jsx>{`
         nav {
           background: none;
         }
@@ -91,6 +91,6 @@ export default class PodcastPlayer extends React.Component {
           z-index: 99999;
         }
       `}</style>
-        </div>
-    }
+    </div>
+  }
 }

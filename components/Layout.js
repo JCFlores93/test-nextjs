@@ -4,26 +4,26 @@ import NProgress from 'nprogress'
 import Router from 'next/router'
 
 Router.onRouteChangeStart = (url) => {
-  NProgress.start()
+    NProgress.start()
 }
 Router.onRouteChangeComplete = () => NProgress.done()
 Router.onRouteChangeError = () => NProgress.done()
 
 export default class Layout extends React.Component {
-  render() {
-    const { children, title } = this.props
+    render() {
+        const { children, title } = this.props
 
-    return <div>
-      <Head>
-        <title>{ title }</title>
-        <meta name="viewport" content="width=device-width"/>
-      </Head>
+        return <div>
+            <Head>
+                <title>{title}</title>
+                <meta name="viewport" content="width=device-width" />
+            </Head>
 
-      <header><Link route="home"><a>Podcasts</a></Link></header>
+            <header><Link route="home"><a>Podcasts</a></Link></header>
 
-      { children }
+            {children}
 
-      <style jsx>{`
+            <style jsx>{`
         header {
           color: #fff;
           background: #8756ca;
@@ -36,7 +36,7 @@ export default class Layout extends React.Component {
         }
       `}</style>
 
-      <style jsx global>{`
+            <style jsx global>{`
         body {
           margin: 0;
           font-family: system-ui;
@@ -104,6 +104,6 @@ export default class Layout extends React.Component {
           100% { transform: rotate(360deg); }
         }
       `}</style>
-    </div>
-  }
+        </div>
+    }
 }

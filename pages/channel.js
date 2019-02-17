@@ -23,7 +23,7 @@ export default class extends React.Component {
         fetch(`https://api.audioboom.com/channels/${idChannel}/audio_clips`)
       ])
 
-      if( reqChannel.status >= 400 ) {
+      if (reqChannel.status >= 400) {
         res.statusCode = reqChannel.status
         return { channel: null, audioClips: null, series: null, statusCode: reqChannel.status }
       }
@@ -38,13 +38,13 @@ export default class extends React.Component {
       let series = dataSeries.body.channels
 
       return { channel, audioClips, series, statusCode: 200 }
-    } catch(e) {
+    } catch (e) {
       return { channel: null, audioClips: null, series: null, statusCode: 503 }
     }
   }
 
   openPodcast = (event, podcast) => {
-    if ( event.metaKey || event.ctrlKey || event.shiftKey || (event.nativeEvent && event.nativeEvent.which === 2) ) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || (event.nativeEvent && event.nativeEvent.which === 2)) {
       // Si está haciendo Ctrl+Click o Cmd+Click, dejamos que el click suceda normalmente
       return
     }
@@ -61,34 +61,34 @@ export default class extends React.Component {
       openPodcast: null
     })
   }
-  
+
   render() {
     const { channel, audioClips, series, statusCode } = this.props
     const { openPodcast } = this.state
 
-    if( statusCode !== 200 ) {
-      return <Error statusCode={ statusCode } />
+    if (statusCode !== 200) {
+      return <Error statusCode={statusCode} />
     }
 
     return <Layout title={channel.title}>
 
-      { openPodcast && 
-        <PodcastPlayer clip={ openPodcast } onClose={ this.closePodcast } />
+      {openPodcast &&
+        <PodcastPlayer clip={openPodcast} onClose={this.closePodcast} />
       }
 
       <div className="banner" style={{ backgroundImage: `url(${channel.urls.banner_image.original})` }} />
-      
-      <h1>{ channel.title }</h1>
 
-      { series.length > 0 &&
+      <h1>{channel.title}</h1>
+
+      {series.length > 0 &&
         <div>
           <h2>Series</h2>
-          <ChannelGrid channels={ series } />
+          <ChannelGrid channels={series} />
         </div>
       }
 
       <h2>Ultimos Podcasts</h2>
-      <PodcastListWithClick podcasts={ audioClips } onClickPodcast={ this.openPodcast } />
+      <PodcastListWithClick podcasts={audioClips} onClickPodcast={this.openPodcast} />
 
       <style jsx>{`
         .banner {
