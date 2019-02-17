@@ -1,37 +1,37 @@
 import { Component } from 'react'
+import Link from 'next/link'
 
-
-export default class extends Component {
+export default class extends React.Component {
 
     static async getInitialProps({ query }) {
-        const idChannel = query.id
+        let idChannel = query.id
 
-        const [reqChannel, reqSeries, reqAudios] = await Promise.all([
+        let [reqChannel, reqSeries, reqAudios] = await Promise.all([
             fetch(`https://api.audioboom.com/channels/${idChannel}`),
             fetch(`https://api.audioboom.com/channels/${idChannel}/child_channels`),
             fetch(`https://api.audioboom.com/channels/${idChannel}/audio_clips`)
         ])
 
-        const dataChannel = await reqChannel.json()
-        const channel = dataChannel.body.channel
+        let dataChannel = await reqChannel.json()
+        let { channel } = dataChannel.body
 
-        const dataAudios = await reqAudios.json()
-        const audioClips = dataAudios.body.audio_clips
+        let dataAudios = await reqAudios.json()
+        let audioClips = dataAudios.body.audio_clips
 
-        const dataSeries = await reqSeries.json()
-        const series = dataSeries.body.channels
+        let dataSeries = await reqSeries.json()
+        let { channel: series } = dataSeries.body.channels
 
         return { channel, audioClips, series }
     }
 
     render() {
-        const { channel } = this.props
+        const { channel, audioClips, series } = this.props
         return <div>
             <div className="banner" style={{ backgroundImage: `url(${channel.urls.banner_image.original})` }} />
 
-            {/* <h1>{channel.title}</h1> */}
+            <h1>{channel.title}</h1>
             <h2>Series</h2>
-            {series.length > 0 &&
+            {series && series.length > 0 &&
                 <div>
                     <h2>Series</h2>
                     <div className="channels">
@@ -46,10 +46,16 @@ export default class extends Component {
                     </div>
                 </div>
             }
-
             <h2>Ultimos Podcasts</h2>
-            {audioClips.map((clip) => (
-                <div className="podcast" key={clip.id}>{clip.title}</div>
+            {audioClips && audioClips.map((clip) => (
+                <Link href={`/podcast?id=${clip.id}`} prefetch key={clip.id}>
+                    <a className='podcast'>
+                        <h3>{clip.title}</h3>
+                        <div className='meta'>
+                            {Math.ceil(clip.duration / 60)} minutes
+            </div>
+                    </a>
+                </Link>
             ))}
             <style jsx>{`
         header {
@@ -123,6 +129,7 @@ export default class extends Component {
           font-family: system-ui;
           background: white;
         }
-      `}</style></div>
+      `}</style>
+        </div>
     }
 }
